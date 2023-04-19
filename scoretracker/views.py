@@ -37,6 +37,18 @@ class HoleViewSet(viewsets.ModelViewSet):
     serializer_class = HoleSerializer
     http_method_names = ('get', 'post', 'put', 'patch', 'delete')
 
+    def get_queryset(self):
+        """
+        Optionally restricts the returned purchases to a given user,
+        by filtering against a `username` query parameter in the URL.
+        """
+        queryset = Hole.objects.all()
+        course = self.request.query_params.get('selected_course')
+        print('COURSE IS', course)
+        if course is not None:
+            queryset = queryset.filter(course_id=course)
+        return queryset
+
 class RoundViewSet(viewsets.ModelViewSet):
     queryset = Round.objects.all()
     serializer_class = RoundSerializer
