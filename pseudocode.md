@@ -208,7 +208,7 @@
     from django.db import models
     from django.contrib.auth.models import AbstractUser
     from django.utils import timezone
-    from django.config import settings
+    from django.api import settings
 
 ### **CustomUser**
     class CustomUser(AbstractUser):
@@ -226,10 +226,11 @@
 
 ### **Hole**
     class Hole(models.Model):
-        course = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+        course = models.ForeignKey('Course', on_delete=models.CASCADE)
+        number = models.IntegerField()
         par = models.IntegerField()
         distance = models.IntegerField()
-        number = models.IntegerField()
+       
 
         def __str__(self):
             return f'{self.course}, {self.par}, {self.distance}, {self.number}'
@@ -238,8 +239,8 @@
 ### **Round**
     class Round(models.Model):
         user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-        course = models.ForeignKey('Course', on_delete=models.CASCADE)
         date = models.DateTimeField(default=timezone.now)
+        course = models.ForeignKey('Course', on_delete=models.CASCADE)
         round_length = models.IntegerField()
         total_score = models.IntegerField()
 

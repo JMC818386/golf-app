@@ -1,12 +1,13 @@
 from django.shortcuts import render
+from django.http import HttpResponse, JsonResponse
 from rest_framework import viewsets
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import status, permissions, generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.decorators import action
-from .models import CustomUser
-from .serializers import CustomUserSerializer
+from .models import *
+from .serializers import *
 
 class UserCreate(APIView):
     permission_classes = (permissions.AllowAny,)
@@ -25,3 +26,18 @@ class UserDetail(generics.RetrieveAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
+
+class CourseViewSet(viewsets.ModelViewSet):
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
+    http_method_names = ('get', 'post', 'put', 'patch', 'delete')
+
+class HoleViewSet(viewsets.ModelViewSet):
+    queryset = Hole.objects.all()
+    serializer_class = HoleSerializer
+    http_method_names = ('get', 'post', 'put', 'patch', 'delete')
+
+class RoundViewSet(viewsets.ModelViewSet):
+    queryset = Round.objects.all()
+    serializer_class = RoundSerializer
+    http_method_names = ('get', 'post', 'put', 'patch', 'delete')

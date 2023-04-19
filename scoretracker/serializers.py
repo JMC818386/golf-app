@@ -1,6 +1,6 @@
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
-from .models import CustomUser
+from .models import *
 
 class CustomUserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
@@ -16,9 +16,25 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         password = validated_data.pop('password', None)
-        instance = self.Meta.model(**validated_data)  # as long as the fields are the same, we can just use this
+        instance = self.Meta.model(**validated_data)
         if password is not None:
             instance.set_password(password)
         instance.save()
         return instance
+
+class CourseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Course
+        fields = ['id', 'name', 'par']
+
+class HoleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Hole
+        fields = ['id', 'course', 'number', 'par', 'distance']
+
+class RoundSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Round
+        fields = ['id', 'user', 'course', 'date', 'round_length', 'total_score']
+
 
