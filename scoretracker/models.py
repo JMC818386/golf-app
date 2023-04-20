@@ -24,11 +24,11 @@ class Hole(models.Model):
         return f'{self.course}, {self.par}, {self.distance}, {self.number}'
 
 class Round(models.Model):
-    user = models.ForeignKey('CustomUser', on_delete=models.CASCADE)
-    course = models.ForeignKey('Course', on_delete=models.CASCADE)
-    date = models.DateTimeField(default=timezone.now)
-    round_length = models.IntegerField()
-    total_score = models.IntegerField()
+    user = models.ForeignKey('CustomUser', on_delete=models.CASCADE, null=True)
+    course = models.ForeignKey('Course', on_delete=models.CASCADE, null=True)
+    date = models.DateTimeField(default=timezone.now, null=True)
+    round_length = models.IntegerField(null=True)
+    total_score = models.IntegerField(null=True)
 
     def __str__(self):
         return f'{self.user}, {self.course}, {self.date}, {self.round_length}, {self.total_score}'
