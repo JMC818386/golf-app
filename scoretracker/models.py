@@ -32,3 +32,13 @@ class Round(models.Model):
 
     def __str__(self):
         return f'{self.user}, {self.course}, {self.date}, {self.round_length}, {self.total_score}'
+
+class HoleScore(models.Model):
+    hole_round = models.ForeignKey('Round', on_delete=models.CASCADE, null=True)
+    hole = models.ForeignKey('Hole', on_delete=models.CASCADE, null=True)
+    strokes = models.IntegerField(null=True)
+    swings = models.IntegerField(null=True)
+    putts = models.IntegerField(null=True)
+   
+    def __str__(self):
+        return f'{self.hole_round}, {self.hole}, {self.strokes}, {self.swings}, {self.putts}'

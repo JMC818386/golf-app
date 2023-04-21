@@ -54,4 +54,7 @@ class RoundViewSet(viewsets.ModelViewSet):
     serializer_class = RoundSerializer
     http_method_names = ('get', 'post', 'put', 'patch', 'delete')
 
-    
+class HoleScoreViewSet(viewsets.ModelViewSet):
+    queryset = HoleScore.objects.all()
+    serializer_class = HoleScoreSerializer
+    http_method_names = ('get', 'post', 'put', 'patch', 'delete')

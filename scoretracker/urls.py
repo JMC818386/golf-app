@@ -7,6 +7,7 @@ router = routers.DefaultRouter()
 router.register(r'courses', CourseViewSet)
 router.register(r'holes', HoleViewSet)
 router.register(r'rounds', RoundViewSet)
+router.register(r'hole-scores', HoleScoreViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

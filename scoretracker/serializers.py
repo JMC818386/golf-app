@@ -37,4 +37,11 @@ class RoundSerializer(serializers.ModelSerializer):
         model = Round
         fields = ['id', 'user', 'course', 'date', 'round_length', 'total_score']
 
+class HoleScoreSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HoleScore
+        fields = ['hole_round', 'hole', 'strokes', 'swings', 'putts']
+
+
+
 
