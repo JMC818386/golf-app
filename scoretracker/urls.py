@@ -8,6 +8,8 @@ router.register(r'courses', CourseViewSet)
 router.register(r'holes', HoleViewSet)
 router.register(r'rounds', RoundViewSet)
 router.register(r'hole-scores', HoleScoreViewSet)
+# router.register(r'round-detail', RoundDetail)
+
 
 urlpatterns = [
     path('', include(router.urls)),

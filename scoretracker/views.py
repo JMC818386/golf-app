@@ -8,6 +8,7 @@ from rest_framework.views import APIView
 from rest_framework.decorators import action
 from .models import *
 from .serializers import *
+from django.db.models import Sum
 
 class UserCreate(APIView):
     permission_classes = (permissions.AllowAny,)
@@ -54,7 +55,36 @@ class RoundViewSet(viewsets.ModelViewSet):
     serializer_class = RoundSerializer
     http_method_names = ('get', 'post', 'put', 'patch', 'delete')
 
+    # def get_queryset(self, request, round_id):
+    #     queryset = Round.objects.all()
+    #     unique_round = Round.objects.get(id=round_id)
+    #     course_name = unique_round.course.name
+    #     date = unique_round.date.strftime("%m-%d-%Y")
+    #     total_score = unique_round.total_score
+    #     total_putts = unique_round.holescore_set.aggregate(total_putts=models.Sum('putts'))['total_putts']
+    #     par = unique_round.course.par
+    #     round_length = unique_round.round_length
+    #     holes = Hole.objects.filter(course=unique_round.course)
+    #     hole_scores = HoleScore.objects.filter(hole_round=unique_round)
+
+    #     hole_data = []
+    #     for hole in holes:
+    #         hole_score = hole_scores.get(hole=hole)
+    #         hole_data.append({'hole_number': hole.number, 'par': hole.par, 'strokes': hole_score.strokes, 'putts': hole_score.putts, 'score_difference': hole_score.strokes - hole.par})
+
+    #     data = {
+    #         'course_name': course_name,
+    #         'date': date,
+    #         'score_vs_par': total_score - par,
+    #         'total_putts': total_putts,
+    #         'total_score': total_score,
+    #         'round_length': round_length,
+    #         'hole_data': hole_data
+    #     }
+
+
 class HoleScoreViewSet(viewsets.ModelViewSet):
     queryset = HoleScore.objects.all()
     serializer_class = HoleScoreSerializer
     http_method_names = ('get', 'post', 'put', 'patch', 'delete')
+
