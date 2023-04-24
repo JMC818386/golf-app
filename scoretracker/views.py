@@ -55,6 +55,9 @@ class RoundViewSet(viewsets.ModelViewSet):
     serializer_class = RoundSerializer
     http_method_names = ('get', 'post', 'put', 'patch', 'delete')
 
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
     # def get_queryset(self, request, round_id):
     #     queryset = Round.objects.all()
     #     unique_round = Round.objects.get(id=round_id)
@@ -82,6 +85,15 @@ class RoundViewSet(viewsets.ModelViewSet):
     #         'hole_data': hole_data
     #     }
 
+    # def get_queryset(self):
+    #     user = self.request.user
+    #     if user.is_authenticated:
+    #         return Round.objects.filter(user=user)
+        
+    #     return Round.objects.all()
+
+    # def perform_create(self, serializer):
+    #     serializer.save(user=self.request.user)
 
 class HoleScoreViewSet(viewsets.ModelViewSet):
     queryset = HoleScore.objects.all()

@@ -32,16 +32,43 @@ class HoleSerializer(serializers.ModelSerializer):
         model = Hole
         fields = ['id', 'course', 'number', 'par', 'distance']
 
+        
+
 class RoundSerializer(serializers.ModelSerializer):
+    course_name = serializers.CharField(source='course.name', required=False)
+    formatted_date = serializers.SerializerMethodField()
+    stroke_total = serializers.SerializerMethodField()
+    putt_total = serializers.SerializerMethodField()
+    
     class Meta:
         model = Round
-        fields = ['id', 'user', 'course', 'date', 'round_length', 'total_score']
+        fields = ['id', 'user', 'course', 'course_name', 'date', 'round_length', 'stroke_total', 'putt_total', 'formatted_date']
+
+    def get_course_name(self, obj):
+        course_name = obj.name
+        return course_name
+
+    def get_formatted_date(self, obj):
+        round_datetime = obj.date
+        return round_datetime.strftime('%m-%d-%Y')
+
+    def get_putt_total(self, obj):
+        scores = HoleScore.objects.filter(hole_round_id=obj.id)
+        putt_total = 0
+        for score in scores:
+            putt_total += score.putts
+        return putt_total
+
+    def get_stroke_total(self, obj):
+        scores = HoleScore.objects.filter(hole_round_id=obj.id)
+        stroke_total = 0
+        for score in scores:
+            stroke_total += score.strokes
+        return stroke_total 
 
 class HoleScoreSerializer(serializers.ModelSerializer):
+    # user = serializers.PrimaryKeyRelatedField(read_only=True)
+    user = serializers.PrimaryKeyRelatedField(queryset=CustomUser.objects.all(), required=False)
     class Meta:
         model = HoleScore
-        fields = ['hole_round', 'hole', 'strokes', 'swings', 'putts']
-
-
-
-
+        fields = ['user', 'hole_round', 'hole', 'strokes', 'swings', 'putts']
