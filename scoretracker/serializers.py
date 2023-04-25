@@ -40,10 +40,12 @@ class RoundSerializer(serializers.ModelSerializer):
     stroke_total = serializers.SerializerMethodField()
     putt_total = serializers.SerializerMethodField()
     hole_scores = serializers.SerializerMethodField()
+    strokes_difference = serializers.SerializerMethodField()
+    
     
     class Meta:
         model = Round
-        fields = ['id', 'user', 'course', 'course_name', 'date', 'round_length', 'stroke_total', 'putt_total', 'formatted_date', 'hole_scores']
+        fields = ['id', 'user', 'course', 'course_name', 'date', 'round_length', 'stroke_total', 'strokes_difference', 'putt_total', 'formatted_date', 'hole_scores']
 
     def get_course_name(self, obj):
         course_name = obj.name
@@ -66,6 +68,21 @@ class RoundSerializer(serializers.ModelSerializer):
         for score in scores:
             stroke_total += score.strokes
         return stroke_total
+
+    def get_strokes_difference(self, obj):
+        scores = HoleScore.objects.filter(hole_round_id=obj.id)
+        total_score = 0
+        par = 0
+        
+        for score in scores:
+            hole = score.hole
+            if hole is not None:
+                total_score += score.strokes
+                par += hole.par
+        
+        difference = total_score - par
+        
+        return difference if difference < 0 else f'+{difference}'
 
     def get_hole_scores(self, obj):
         hole_scores = []
