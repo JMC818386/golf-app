@@ -28,11 +28,15 @@ class CourseSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'par']
 
 class HoleSerializer(serializers.ModelSerializer):
+    course_name = serializers.CharField(source='course.name', required=False)
+
     class Meta:
         model = Hole
-        fields = ['id', 'course', 'number', 'par', 'distance']
+        fields = ['id', 'course', 'number', 'par', 'distance', 'course_name']
 
-        
+    def get_course_name(self, obj):
+        course_name = obj.name
+        return course_name
 
 class RoundSerializer(serializers.ModelSerializer):
     course_name = serializers.CharField(source='course.name', required=False)
@@ -41,7 +45,6 @@ class RoundSerializer(serializers.ModelSerializer):
     putt_total = serializers.SerializerMethodField()
     hole_scores = serializers.SerializerMethodField()
     strokes_difference = serializers.SerializerMethodField()
-    
     
     class Meta:
         model = Round

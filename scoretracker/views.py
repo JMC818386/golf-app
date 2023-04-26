@@ -55,8 +55,15 @@ class RoundViewSet(viewsets.ModelViewSet):
     serializer_class = RoundSerializer
     http_method_names = ('get', 'post', 'put', 'patch', 'delete')
 
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_authenticated:
+            return Round.objects.filter(user=user)
+
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+
 
     # def get_queryset(self, request, round_id):
     #     queryset = Round.objects.all()
