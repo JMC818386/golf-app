@@ -104,7 +104,7 @@ class RoundSerializer(serializers.ModelSerializer):
             elif difference == 1:
                 classification = 'bogey'
             else:
-                classification = 'bogey-plus'
+                classification = 'bogey_plus'
 
             hole_score_data = {
                 'hole_number': hole.number,
@@ -121,7 +121,7 @@ class RoundSerializer(serializers.ModelSerializer):
         birdie_count = sum(score['classification'] == 'birdie' for score in hole_scores)
         par_count = sum(score['classification'] == 'par' for score in hole_scores)
         bogey_count = sum(score['classification'] == 'bogey' for score in hole_scores)
-        bogeyplus_count = sum(score['classification'] == 'bogey-plus' for score in hole_scores)
+        bogeyplus_count = sum(score['classification'] == 'bogey_plus' for score in hole_scores)
 
         # create dictionary with total counts
         counts = {
@@ -129,7 +129,7 @@ class RoundSerializer(serializers.ModelSerializer):
             'birdies': birdie_count,
             'pars': par_count,
             'bogeys': bogey_count,
-            'bogeys-plus': bogeyplus_count
+            'bogey_plus': bogeyplus_count
         }
 
         return {'scores': hole_scores, 'counts': counts}
