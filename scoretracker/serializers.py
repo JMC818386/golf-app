@@ -32,7 +32,7 @@ class HoleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Hole
-        fields = ['id', 'course', 'number', 'par', 'distance', 'course_name']
+        fields = ['id', 'course', 'number', 'par', 'distance', 'course_name', 'latitude', 'longitude', 'altitude']
 
     def get_course_name(self, obj):
         course_name = obj.name

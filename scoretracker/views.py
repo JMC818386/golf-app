@@ -34,7 +34,7 @@ class CourseViewSet(viewsets.ModelViewSet):
     http_method_names = ('get', 'post', 'put', 'patch', 'delete')
 
 class HoleViewSet(viewsets.ModelViewSet):
-    queryset = Hole.objects.all()
+    queryset = Hole.objects.all().order_by('id')
     serializer_class = HoleSerializer
     http_method_names = ('get', 'post', 'put', 'patch', 'delete')
 
@@ -43,7 +43,7 @@ class HoleViewSet(viewsets.ModelViewSet):
         Optionally restricts the returned purchases to a given user,
         by filtering against a `username` query parameter in the URL.
         """
-        queryset = Hole.objects.all()
+        queryset = Hole.objects.all().order_by('id')
         course = self.request.query_params.get('selected_course')
         print('COURSE IS', course)
         if course is not None:

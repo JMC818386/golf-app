@@ -19,6 +19,9 @@ class Hole(models.Model):
     number = models.IntegerField()
     par = models.IntegerField()
     distance = models.IntegerField()
+    latitude = models.FloatField(null=True)
+    longitude = models.FloatField(null=True)
+    altitude = models.FloatField(null=True)
    
     def __str__(self):
         return f'{self.course}, {self.par}, {self.distance}, {self.number}'
