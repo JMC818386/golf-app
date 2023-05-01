@@ -59,6 +59,8 @@ class RoundViewSet(viewsets.ModelViewSet):
         user = self.request.user
         if user.is_authenticated:
             return Round.objects.filter(user=user)
+        else:
+            return Round.objects.all()
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
